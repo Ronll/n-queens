@@ -79,23 +79,25 @@ window.countNRooksSolutions = function (size) {
 window.findNQueensSolution = function (size) {
   var newBoard = new Board({n: size});
   var rows = newBoard.rows();
+  var out;
 
   var recursive = function (board, queenCount) {
     if (queenCount === size) {
-      return rows;
+      out = board.rows();
     }
     for (var col = 0; col < rows.length; col++) {
       if (rows[queenCount][col] === 0) {
         board.togglePiece(queenCount, col);
         if (!board.hasAnyQueensConflicts()) {
-          return recursive(board, queenCount + 1);
+          recursive(board, queenCount + 1);
         }
         board.togglePiece(queenCount, col);
       }
     }
-  }
+  };
 
-  return recursive(newBoard, 0);
+  recursive(newBoard, 0);
+  return out;
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
@@ -106,5 +108,5 @@ window.countNQueensSolutions = function (n) {
   return solutionCount;
 };
 /**
- * Created by student on 12/3/15.
+ * Created by student on 12/3/15
  */
